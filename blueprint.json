@@ -15,12 +15,33 @@
         "level": "alpha",
         "patch": 0
       }
-    }
+    },
+    "timestamp": "2019-07-23T17:43:06+10:00"
   },
   "software": {
     "base": {
+      "name": "rstudio",
+      "framework": "rstudio",
       "deployment_type": "web",
-      "http_protocol": "https_and_http"
-    }
+      "http_protocol": "https_only",
+      "memory": {
+        "required": 1024,
+        "recommended": 1024
+      }
+    },
+    "scripts": {
+      "start": {
+        "content": "#!/bin/sh\r\n. /home/engines/functions/trap.sh\r\nPID_FILE=/home/engines/run/shiny.pid \r\nexport PID_FILE\r\n\r\nsleep 6000 &\r\necho $! > $PID_FILE\r\nstartup_complete\r\nwait\r\nshutdown_complete"
+      },
+      "install": {
+        "content": "#!/bin/sh\r\n\r\nR -e \"install.packages('rmarkdown')\" \r\nR -e \"install.packages(c('RJDBC', 'RJSONIO', 'rmarkdown', 'dplyr'))\"\r\ncd /tmp\r\n\r\nwget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb\r\n\r\nsudo -n gdebi -n  pandoc-2.7.3-1-amd64.deb \r\nrm pandoc-2.7.3-1-amd64.deb \r\n\r\nwget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.1335-amd64.deb\r\ngdebi rstudio-server-1.2.1335-amd64.deb\r\nrm rstudio-server-1.2.1335-amd64.deb"
+      }
+    },
+    "file_write_permissions": [
+      {
+        "path": "/home/app",
+        "recursive": true
+      }
+    ]
   }
 }
