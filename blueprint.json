@@ -16,7 +16,7 @@
         "patch": 0
       }
     },
-    "timestamp": "2019-07-25T12:35:35+10:00"
+    "timestamp": "2019-07-25T15:00:44+10:00"
   },
   "software": {
     "base": {
@@ -37,6 +37,9 @@
       },
       "install": {
         "content": "#!/bin/sh\r\n\r\nR -e \"install.packages('rmarkdown')\" \r\nR -e \"install.packages(c('RJDBC', 'RJSONIO', 'rmarkdown', 'dplyr'))\"\r\ncd /tmp\r\n\r\nwget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb\r\n\r\nsudo -n gdebi -n  pandoc-2.7.3-1-amd64.deb \r\nrm pandoc-2.7.3-1-amd64.deb \r\n\r\nwget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.1335-amd64.deb\r\nsudo -n gdebi -n rstudio-server-1.2.1335-amd64.deb\r\nrm rstudio-server-1.2.1335-amd64.deb"
+      },
+      "first_run": {
+        "content": "#!/bin/sh\r\n\r\n/home/engines/scripts/config_pam_ldap.sh"
       }
     },
     "system_packages": [
